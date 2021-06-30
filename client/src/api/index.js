@@ -1,6 +1,7 @@
 import Axios from 'axios';
 
-const url = 'https://travel-blog-kv.herokuapp.com/posts';
+// const url = 'https://travel-blog-kv.herokuapp.com/posts';
+const url = 'http://localhost:5000/posts';
 
 export const fetchPosts = () => {
     return Axios.get(url);
