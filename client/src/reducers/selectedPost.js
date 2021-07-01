@@ -1,6 +1,6 @@
 import {SELECTED_POST} from '../constants/actionTypes';
 
-const recuder = (selectedPost = '' , action) =>{
+const reducer = (selectedPost = '' , action) =>{
     switch (action.type) {
         case SELECTED_POST:
             return action.payload;
@@ -9,4 +9,4 @@ const recuder = (selectedPost = '' , action) =>{
     }
 }
 
-export default recuder;
+export default reducer;
