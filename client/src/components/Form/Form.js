@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createPost, updatePost } from '../../actions/posts';
 
 const Posts = () => {
-    const initial = { creator: '', title: '', message: '', tags: '', selectedFile: ''};
+    const initial = {title: '', message: '', tags: '', selectedFile: ''};
     const [postData, setPostData] = useState(initial);
 
     const classes = useStyles();
@@ -16,6 +16,7 @@ const Posts = () => {
 
     const selectedPost = useSelector((state) => state.selectedPost);
     const posts = useSelector((state) => state.posts);
+    const user = useSelector(state => state.auth.authData);
 
     useEffect(() => {
         const post = posts.find((p) => p._id === selectedPost);
@@ -27,11 +28,11 @@ const Posts = () => {
 
     const HandleFormSubmit = (event) => {
         event.preventDefault();
-        
+
         if (selectedPost) {
-            dispatch(updatePost(selectedPost, postData));
+            dispatch(updatePost(selectedPost, {...postData, name: user?.result?.name}));
         } else {
-            dispatch(createPost(postData));
+            dispatch(createPost({...postData, name: user?.result?.name}));
         }
         clearPost();
     }
@@ -41,18 +42,18 @@ const Posts = () => {
         dispatch({ type: 'SELECTED_POST', payload : ''});
     }
 
+    if (!user?.result?.name) {
+        return(
+            <Paper className={classes.paper}>
+                Please Sign In to create your own posts and like others
+            </Paper>
+        )
+    }
+
     return (
         <Paper className={classes.paper}>
             <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={HandleFormSubmit}>
                 <Typography variant="h6"> {selectedPost ? 'Updating a Post' : 'Creating a Post'}</Typography>
-                <TextField 
-                    name="creator"
-                    variant="outlined"
-                    label="Creator"
-                    fullWidth
-                    value={ postData.creator}
-                    onChange={(event) =>  setPostData({...postData, creator : event.target.value})}
-                />
                  <TextField 
                     name="title"
                     variant="outlined"
@@ -73,7 +74,7 @@ const Posts = () => {
                 <TextField 
                     name="tags"
                     variant="outlined"
-                    label="Tags"
+                    label="Tags (coma separated)"
                     fullWidth
                     value={ postData.tags}
                     onChange={(event) =>  setPostData({...postData, tags : event.target.value.split(',')})}

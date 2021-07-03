@@ -22,7 +22,6 @@ const Auth = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
         if (isSignup){
             dispatch(signUp(formData, history));
         } else {
@@ -68,7 +67,7 @@ const Auth = () => {
                 <Avatar className={classes.avatar}>
                     <LockOutlinedIcon />
                 </Avatar>
-                <Typography variant="h5" >{isSignup ? 'Sign In' : 'Sign up'}</Typography>
+                <Typography variant="h5" >{isSignup ? 'Sign Up' : 'Sign In'}</Typography>
 
                 <form className={classes.form} onSubmit={handleSubmit}>  
                     <Grid container spacing={2}>

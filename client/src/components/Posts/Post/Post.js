@@ -1,10 +1,11 @@
 import React from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
 import useStyles from './styles';
 import {Card, CardActions, CardContent, CardMedia, Button, Typography} from '@material-ui/core';
 
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
+import ThumbUpAltOutlined from '@material-ui/icons/ThumbUpAltOutlined';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
@@ -13,21 +14,50 @@ import {deletePost, likePost} from '../../../actions/posts';
  const Post = ({post}) => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const user = useSelector(state => state.auth.authData);
+
+    const Likes = () => {
+        const len = post.likes.length;
+        if(len > 0) {
+            return post.likes.find((like) => like === (user?.result?.googleId || user?.result?._id)) ? (
+                <><ThumbUpAltIcon fontSize="small" />&nbsp;{len >= 2 ? `You and ${len -1} ${len === 2 ? 'other': 'others'}` : `${len} like${len > 1 ? 's' : ''}`} </>
+            ) : (
+                <><ThumbUpAltOutlined fontSize="small" />&nbsp;{len} {len === 1 ? 'Like' : 'Likes'}</>
+            )
+        }
+        return <><ThumbUpAltOutlined fontSize="small" />&nbsp;Like</>
+    }
+
+    const Delete = () => {
+        return(
+            user?.result.googleId === post?.creator || user?.result._id === post?.creator) && (
+                <Button size="small" color="primary" onClick={() => dispatch(deletePost(post._id))}>
+                   <DeleteIcon fontSize="small" /> Delete 
+                </Button>
+        )
+    }
+
+    const More = () => {
+        return(
+            user?.result.googleId === post?.creator || user?.result._id === post?.creator) && (
+                <Button style={{color: 'white'}} size="small" onClick={() => dispatch({ type: 'SELECTED_POST', payload : post._id})}>
+                    <MoreHorizIcon fontSize="default" />
+                </Button>
+        )
+    }
 
     return (
         <Card className={classes.card}>
             <CardMedia className={classes.media} image={post.selectedFile} title={post.title}/>
 
             <div className={classes.overlay}>
-                <Typography variant="h6" > {post.creator} </Typography>
+                <Typography variant="h6" > {post.name} </Typography>
                 <Typography variant="body2" > {moment(post.createdAt).fromNow()} </Typography>
 
             </div>
 
             <div className={classes.overlay2}>
-                <Button style={{color: 'white'}} size="small" onClick={() => dispatch({ type: 'SELECTED_POST', payload : post._id})}>
-                    <MoreHorizIcon fontSize="default" />
-                </Button>
+                <More />
             </div>
 
             <div className={classes.details}>
@@ -40,16 +70,11 @@ import {deletePost, likePost} from '../../../actions/posts';
             </CardContent>
 
             <CardActions className={classes.cardActions}>
-                <Button size="small" color="primary" onClick={() => dispatch(likePost(post._id))}>
-                    <ThumbUpAltIcon fontSize="small" />
-                    <Typography className={classes.buttonText}>{post.likeCount}</Typography>
-                    <Typography className={classes.buttonText}> {post.likeCount === 1 ? 'Like' : 'Likes'} </Typography>
+                <Button size="small" color="primary" disabled={!user?.result} onClick={() => dispatch(likePost(post._id))}>
+                    <Likes />
                 </Button>
 
-                <Button size="small" color="primary" onClick={() => dispatch(deletePost(post._id))}>
-                    <DeleteIcon fontSize="small" />
-                    Delete
-                </Button>
+                <Delete />
             </CardActions>
         </Card>
     )
