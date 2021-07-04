@@ -38,10 +38,10 @@ function Navbar() {
     
     return (
         <AppBar className={classes.appBar} position="static" color="inherit">
-            <div className={classes.brandContainer}>
-                <img src={name}  alt="icon" height="65px"/>
-                <img className={classes.image} src={mainImg}  alt="icon" height="45px"/>
-            </div>
+            <Link to="/" className={classes.brandContainer}>
+                <img src={name}  alt="icon" height="50px"/>
+                <img className={classes.image} src={mainImg}  alt="icon" height="40px"/>
+            </Link>
             <Toolbar className={classes.toolbar} >
                 {user ? (
                     <div className={classes.profile}>

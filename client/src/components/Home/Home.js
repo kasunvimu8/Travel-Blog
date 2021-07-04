@@ -45,6 +45,7 @@ function Home() {
                 variant="outlined"
                 label="Search Posts"
                 fullWidth
+                autoFocus
                 value={search}
                 onKeyPress={handlekeyPress}
                 onChange={(event) => setSearch(event.target.value)}
