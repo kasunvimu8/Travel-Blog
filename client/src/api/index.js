@@ -1,7 +1,6 @@
 import Axios from 'axios';
 
 // const url = 'https://travel-blog-kv.herokuapp.com/posts';
-// const url = 'http://localhost:5000/posts';
 const API = Axios.create({baseURL: 'http://localhost:5000'});
 
 API.interceptors.request.use((req) => {
@@ -38,4 +37,8 @@ export const signIn = (formData) => {
 
 export const signUp = (formData) => {
     return API.post('/users/signUp', formData);
+}
+
+export const fetchPostsBySearch = (searchQuery) => {
+    return API.get(`/posts/search?search=${searchQuery.search || 'none'}&tags=${searchQuery.tags || 'none'}`)
 }

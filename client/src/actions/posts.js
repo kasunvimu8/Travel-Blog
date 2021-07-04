@@ -1,5 +1,5 @@
 import * as api from '../api';
-import {CREATE, DELETE, UPDATE, FETCH_ALL, LIKE} from '../constants/actionTypes';
+import {CREATE, DELETE, UPDATE, FETCH_ALL, LIKE, FETCH_BY_SEARCH} from '../constants/actionTypes';
 // Just like with a normal action, we first need to handle a user event in the application, 
 // such as a click on a button. Then, we call dispatch(), and pass in something, whether it
 // be a plain action object, a function, or some other value that a middleware can look for.
@@ -13,6 +13,16 @@ export const getPosts = () => async (dispatch) => {
         dispatch({ type: FETCH_ALL, payload: data});
     } catch (error) {
         console.log('Error message : '+ error);
+    }
+}
+
+export const getPostsBySearch = (searchQuery) => async (dispatch) => {
+    try {
+        const {data} = await api.fetchPostsBySearch(searchQuery);
+        
+        dispatch({ type: FETCH_BY_SEARCH, payload: data});
+    } catch (error) {
+        console.log(error);
     }
 }
 

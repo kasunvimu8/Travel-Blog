@@ -6,3 +6,4 @@ export const LIKE = 'LIKE';
 export const SELECTED_POST = 'SELECTED_POST';
 export const AUTH = 'AUTH';
 export const LOGOUT = 'LOGOUT';
+export const FETCH_BY_SEARCH = 'FETCH_BY_SEARCH';

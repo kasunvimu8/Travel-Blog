@@ -6,7 +6,8 @@ import decode from 'jwt-decode';
 
 import { LOGOUT } from '../../constants/actionTypes';
 import useStyles from './styles';
-import mainImg from '../../Images/logo.png';
+import mainImg from '../../Images/icon.jpg';
+import name from '../../Images/name.jpg';
 
 function Navbar() {
     const classes = useStyles();
@@ -38,8 +39,8 @@ function Navbar() {
     return (
         <AppBar className={classes.appBar} position="static" color="inherit">
             <div className={classes.brandContainer}>
-                <Typography component={Link} to="/" className={classes.heading} variant="h3" align="center"> Travel Blog </Typography>
-                <img className={classes.image} src={mainImg}  alt="Kasun" height="60px"/>
+                <img src={name}  alt="icon" height="65px"/>
+                <img className={classes.image} src={mainImg}  alt="icon" height="45px"/>
             </div>
             <Toolbar className={classes.toolbar} >
                 {user ? (
@@ -56,4 +57,4 @@ function Navbar() {
     )
 }
 
-export default Navbar
+export default Navbar;
