@@ -15,11 +15,11 @@ const Posts = () => {
     const dispatch = useDispatch();
 
     const selectedPost = useSelector((state) => state.selectedPost);
-    const posts = useSelector((state) => state.posts);
+    const {posts} = useSelector((state) => state.posts);
     const user = useSelector(state => state.auth.authData);
 
     useEffect(() => {
-        const post = posts.find((p) => p._id === selectedPost);
+        const post = posts?.find((p) => p._id === selectedPost);
         
         if (post && selectedPost) {
             setPostData(post);

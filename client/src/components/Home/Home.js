@@ -20,6 +20,9 @@ function Home() {
     const history = useHistory();
     const dispatch = useDispatch();
 
+    const page = query.get('page') || 1;
+    const searchQuery = query.get('searchQuery');
+
     const [search, setSearch] = useState();
     const [tags, setTags] = useState([]);
 
@@ -81,7 +84,7 @@ function Home() {
                         </AppBar>
                         <Form />
                         <Paper elevation={6}>
-                            <Pagination />
+                            <Pagination page={page}/>
                         </Paper>
                     </Grid>
                 </Grid>
@@ -91,4 +94,3 @@ function Home() {
 }
 
 export default Home;
-// 01:00:01

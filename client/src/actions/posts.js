@@ -6,10 +6,10 @@ import {CREATE, DELETE, UPDATE, FETCH_ALL, LIKE, FETCH_BY_SEARCH} from '../const
 // Once that dispatched value reaches a middleware, it can make an async call, and then dispatch
 // a real action object when the async call completes.
 
-export const getPosts = () => async (dispatch) => {
+export const getPosts = (page) => async (dispatch) => {
     try {
-        const {data} = await api.fetchPosts();
-
+        const {data} = await api.fetchPosts(page);
+        console.log(data);
         dispatch({ type: FETCH_ALL, payload: data});
     } catch (error) {
         console.log('Error message : '+ error);
