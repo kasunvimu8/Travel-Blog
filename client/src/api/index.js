@@ -12,9 +12,6 @@ API.interceptors.request.use((req) => {
 });
 
 export const fetchPosts = (page) => {
-    
-    console.log('==========================')
-    console.log(page)
     return API.get(`/posts?page=${page}`);
 };
 

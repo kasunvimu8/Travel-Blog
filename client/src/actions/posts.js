@@ -1,5 +1,5 @@
 import * as api from '../api';
-import {CREATE, DELETE, UPDATE, FETCH_ALL, LIKE, FETCH_BY_SEARCH} from '../constants/actionTypes';
+import {CREATE, DELETE, UPDATE, FETCH_ALL, LIKE, FETCH_BY_SEARCH, START_LOADING, END_LOADING} from '../constants/actionTypes';
 // Just like with a normal action, we first need to handle a user event in the application, 
 // such as a click on a button. Then, we call dispatch(), and pass in something, whether it
 // be a plain action object, a function, or some other value that a middleware can look for.
@@ -8,9 +8,11 @@ import {CREATE, DELETE, UPDATE, FETCH_ALL, LIKE, FETCH_BY_SEARCH} from '../const
 
 export const getPosts = (page) => async (dispatch) => {
     try {
+        dispatch({ type : START_LOADING});
         const {data} = await api.fetchPosts(page);
-        console.log(data);
+
         dispatch({ type: FETCH_ALL, payload: data});
+        dispatch({ type : END_LOADING});
     } catch (error) {
         console.log('Error message : '+ error);
     }
@@ -18,9 +20,12 @@ export const getPosts = (page) => async (dispatch) => {
 
 export const getPostsBySearch = (searchQuery) => async (dispatch) => {
     try {
+        dispatch({ type : START_LOADING})
         const {data} = await api.fetchPostsBySearch(searchQuery);
         
         dispatch({ type: FETCH_BY_SEARCH, payload: data});
+        dispatch({ type : END_LOADING});
+
     } catch (error) {
         console.log(error);
     }
@@ -28,9 +33,11 @@ export const getPostsBySearch = (searchQuery) => async (dispatch) => {
 
 export const createPost = (posts) => async (dispatch) => {
     try {
+        dispatch({ type : START_LOADING})
         const {data} = await api.createPost(posts);
         
         dispatch({ type: CREATE, payload : data});
+        dispatch({ type : END_LOADING});
     } catch (error) {
         console.log('Error message : '+ error);
         
@@ -40,7 +47,6 @@ export const createPost = (posts) => async (dispatch) => {
 export const updatePost = (postId, post) => async (dispatch) => {
     try {
         const {data} = await api.updatePost(postId, post);
-        
         dispatch({type : UPDATE, payload : data});
     } catch (error) {
         console.log('Error message : '+ error);

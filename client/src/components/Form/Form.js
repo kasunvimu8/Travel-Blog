@@ -51,7 +51,7 @@ const Posts = () => {
     }
 
     return (
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper} elevation={6}>
             <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={HandleFormSubmit}>
                 <Typography variant="h6"> {selectedPost ? 'Updating a Post' : 'Creating a Post'}</Typography>
                  <TextField 

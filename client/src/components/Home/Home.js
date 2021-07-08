@@ -20,9 +20,10 @@ function Home() {
     const history = useHistory();
     const dispatch = useDispatch();
 
+
     const page = query.get('page') || 1;
     const searchQuery = query.get('searchQuery');
-
+    
     const [search, setSearch] = useState();
     const [tags, setTags] = useState([]);
 
@@ -83,9 +84,12 @@ function Home() {
                             <Button onClick={searchPost} className={classes.searchButton} variant="contained" color="primary">Search </Button>
                         </AppBar>
                         <Form />
-                        <Paper elevation={6}>
-                            <Pagination page={page}/>
-                        </Paper>
+                        
+                        {(!search && !tags.length) && (
+                            <Paper elevation={6}>
+                                <Pagination page={page}/>
+                            </Paper>
+                        )}            
                     </Grid>
                 </Grid>
             </Container>
