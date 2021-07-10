@@ -49,9 +49,8 @@ export default makeStyles({
     display: 'flex',
     justifyContent: 'space-between',
   },
-
-  buttonText: {
-    padding: '0 2px 0 4px',
-    fontSize: '14px',
-  }
+  cardAction: {
+    display: 'block',
+    textAlign: 'initial',
+  },
 });

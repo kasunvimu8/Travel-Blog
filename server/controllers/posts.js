@@ -29,6 +29,16 @@ export const getPostsBySearch = async (req, res) => {
     }
 }
 
+export const getPostById = async (req, res) => {
+    const {id} =  req.params;
+    try {
+        const posts = await PostMessage.findById(id);
+        res.status(200).json(posts);
+    } catch (error) {
+        res.status(404).json({message : error})
+    }
+}
+
 export const createPost = async (req, res) => {
     const post = req.body;
     const newPost = new PostMessage({...post, creator: req.userId, createdAt: new Date().toISOString()});

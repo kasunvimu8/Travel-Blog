@@ -40,5 +40,9 @@ export const signUp = (formData) => {
 }
 
 export const fetchPostsBySearch = (searchQuery) => {
-    return API.get(`/posts/search?search=${searchQuery.search || 'none'}&tags=${searchQuery.tags || 'none'}`)
+    return API.get(`/posts/search?search=${searchQuery.search || 'none'}&tags=${searchQuery.tags || 'none'}`);
+}
+
+export const fetchPostById = (id) => {
+    return API.get(`/posts/${id}`);
 }
