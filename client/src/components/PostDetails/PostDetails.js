@@ -56,7 +56,7 @@ function PostDetails() {
 
     if(isLoading) {
         return <Paper elevation={6} className={classes.loadingPaper}>
-            <CircularProgress size="7em"/>
+            <CircularProgress size="3em"/>
         </Paper>
     }
 

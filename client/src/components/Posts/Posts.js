@@ -1,6 +1,6 @@
 import React from 'react'
 import {useSelector} from 'react-redux';
-import { Grid, CircularProgress } from '@material-ui/core';
+import { Grid, CircularProgress, Paper} from '@material-ui/core';
 import Post from './Post/Post';
 import useStyles from './styles';
 
@@ -19,7 +19,12 @@ import useStyles from './styles';
     if (!posts.length && !isLoading) return 'No posts';
 
     return (
-        isLoading ? <CircularProgress /> : (
+        isLoading ? (
+            <Paper elevation={6} className={classes.loadingPaper}>
+                <CircularProgress size="3em"/>
+            </Paper>
+        )
+        : (
             <Grid className={classes.container} container alignItems="stretch" spacing={3}>
                 
                 { posts.map((post) => (
