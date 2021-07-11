@@ -1,8 +1,9 @@
 import React,{useEffect} from 'react';
-import {Paper, Typography, CircularProgress, Divider} from '@material-ui/core';
+import {Paper, Typography, CircularProgress, Divider, Grid} from '@material-ui/core';
 import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
 import {useParams, useHistory} from 'react-router-dom';
+import LinesEllipsis  from 'react-lines-ellipsis';
 
 import useStyles from './styles';
 import {getPostById, getPostsBySearch}  from '../../actions/posts';
@@ -35,16 +36,17 @@ function PostDetails() {
         if (recommendedPosts.length === 0) return null;
         else  return (
             <div className={classes.section} >
-                <Typography variant="h5" gutterBottom>You might also like :</Typography>
+                <Typography variant="h5" gutterBottom style={{margin: '25px'}}>You might also like :</Typography>
                 <Divider />
                 <div className={classes.recommendedPosts} >
                     {recommendedPosts.map(({title,message,name,likes,selectedFile,_id}) => (
-                        <div style={{margin: '20px', cursor: 'pointer'}} onClick={() => openPost(_id)} key={_id}>
+                        <div style={{margin: '25px', cursor: 'pointer', maxWidth: '215px'}} onClick={() => openPost(_id)} key={_id}>
                             <Typography gutterBottom variant="h6">{title}</Typography>
                             <Typography gutterBottom variant="subtitle2">{name}</Typography>
-                            <Typography gutterBottom variant="subtitle2">{message}</Typography>
-                            <Typography gutterBottom variant="subtitle1">Likes: {likes.length}</Typography>
-                            <img src={selectedFile} min-width="100px" height="120px" alt="recommended_img"/>
+                            {/* <Typography gutterBottom variant="subtitle2" className={classes.postContent}>{message.split(' ').splice(0,25).join(' ')}...</Typography> */}
+                            <LinesEllipsis className={classes.postContent} text={message} maxLine='4' style={{fontFamily: 'Helvetica'}}/>
+                            <Typography gutterBottom variant="subtitle2">Likes: {likes.length}</Typography>
+                            <img src={selectedFile} height="120px" alt="recommended_img"/>
                         </div>
                     ))}
                 </div>
@@ -74,12 +76,15 @@ function PostDetails() {
                     <Divider style={{ margin: '20px 0' }} />
                     <Typography variant="body1"><strong>Comments - coming soon!</strong></Typography>
                     <Divider style={{ margin: '20px 0' }} />
-                    </div>
-                    <div className={classes.imageSection}>
-                    <img className={classes.media} src={post.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post.title} />
+                </div>
+                <div className={classes.imageSection}>
+                <img className={classes.media} src={post.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post.title} />
                 </div>
             </div>
-            <RecommendedPosts />
+
+            <Grid container alignItems="stretch" spacing={6}>
+                <RecommendedPosts />
+            </Grid>
         </Paper>
     )
 }

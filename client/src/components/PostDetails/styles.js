@@ -29,9 +29,19 @@ export default makeStyles((theme) => ({
   },
   recommendedPosts: {
     display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    maxWidth: '100%',
+    justifyContent: 'start',
+
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
     },
+  },
+  postContent: {
+    padding: '10px 0 0 0',
+    fontSize: '0.875rem',
+    letterSpacing: '0.00714em',
   },
   loadingPaper: {
     display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px', borderRadius: '15px', height: '77vh',

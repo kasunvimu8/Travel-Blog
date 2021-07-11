@@ -34,14 +34,14 @@ import {deletePost, likePost} from '../../../actions/posts';
         return(
             user?.result.googleId === post?.creator || user?.result._id === post?.creator) && (
                 <Button size="small" color="secondary" onClick={() => dispatch(deletePost(post._id))}>
-                   <DeleteIcon fontSize="small" /> Delete 
+                   <DeleteIcon fontSize="small" /> &nbsp;Delete 
                 </Button>
         )
     }
 
     const More = () => {
         return(
-            user?.result.googleId === post?.creator || user?.result._id === post?.creator) && (
+            user?.result.googleId === post?.creator || user?.result?._id === post?.creator) && (
                 <div className={classes.overlay2} >
                     <Button style={{color: 'white'}} size="small" onClick={() => dispatch({ type: 'SELECTED_POST', payload : post._id})}>
                         <MoreHorizIcon fontSize="default" />
@@ -66,11 +66,11 @@ import {deletePost, likePost} from '../../../actions/posts';
             </div>
             <ButtonBase className={classes.cardAction} onClick={openPost} >
                 <div className={classes.details}>
-                    <Typography variant="body2" color="textSecondary"> {post.tags.map((tag) => `#${tag} `)} </Typography>
+                    <Typography variant="body2" color="textSecondary" component="h2"> {post.tags.map((tag) => `#${tag} `)} </Typography>
                 </div>
-                <Typography className={classes.title} variant="h5" gutterBottom> {post.title} </Typography>
+                <Typography className={classes.title} variant="h5" gutterBottom component="h2"> {post.title} </Typography>
                 <CardContent>
-                    <Typography variant="body2" color="textSecondary" component="p"> {post.message} </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p"> {post.message.split(' ').splice(0,25).join(' ')}... </Typography>
                 </CardContent>
             </ButtonBase>
 
