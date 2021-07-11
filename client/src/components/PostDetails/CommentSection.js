@@ -10,7 +10,6 @@ const CommentSection = ({post}) => {
       const [comment, setComment] = useState('');
 
       const handleClick = () => {
-
       }
 
       return (
