@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import useStyles from './styles';
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
 import FileBase from 'react-file-base64';
+import { useHistory } from 'react-router-dom';
 
 // hold the reference to the redux store
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,6 +14,7 @@ const Posts = () => {
 
     const classes = useStyles();
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const selectedPost = useSelector((state) => state.selectedPost);
     const {posts} = useSelector((state) => state.posts);
@@ -32,7 +34,7 @@ const Posts = () => {
         if (selectedPost) {
             dispatch(updatePost(selectedPost, {...postData, name: user?.result?.name}));
         } else {
-            dispatch(createPost({...postData, name: user?.result?.name}));
+            dispatch(createPost({...postData, name: user?.result?.name}, history));
         }
         clearPost();
     }
@@ -40,6 +42,7 @@ const Posts = () => {
     const clearPost = () => {
         setPostData(initial);
         dispatch({ type: 'SELECTED_POST', payload : ''});
+        history.push()
     }
 
     if (!user?.result?.name) {
@@ -90,7 +93,6 @@ const Posts = () => {
 
                 <Button className={classes.buttonSubmit} variant="contained" color="primary" size="large" type="submit" fullWidth> Submit </Button>
                 <Button className={classes.buttonSubmit} variant="contained" color="secondary" size="small" onClick={clearPost} fullWidth> Clear </Button>
-
             </form>
         </Paper>
     )

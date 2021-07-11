@@ -33,7 +33,7 @@ import {deletePost, likePost} from '../../../actions/posts';
     const Delete = () => {
         return(
             user?.result.googleId === post?.creator || user?.result._id === post?.creator) && (
-                <Button size="small" color="primary" onClick={() => dispatch(deletePost(post._id))}>
+                <Button size="small" color="secondary" onClick={() => dispatch(deletePost(post._id))}>
                    <DeleteIcon fontSize="small" /> Delete 
                 </Button>
         )
@@ -56,15 +56,15 @@ import {deletePost, likePost} from '../../../actions/posts';
     
     return (
         <Card className={classes.card} raised elevation={6}>
+            <CardMedia className={classes.media} image={post.selectedFile ||'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} title={post.title}/>
+            <div className={classes.overlay}>
+                <Typography variant="h6" > {post.name} </Typography>
+                <Typography variant="body2" > {moment(post.createdAt).fromNow()} </Typography>
+            </div>
+            <div className={classes.overlay2}>
+                <More />
+            </div>
             <ButtonBase className={classes.cardAction} onClick={openPost} >
-                <CardMedia className={classes.media} image={post.selectedFile} title={post.title}/>
-                <div className={classes.overlay}>
-                    <Typography variant="h6" > {post.name} </Typography>
-                    <Typography variant="body2" > {moment(post.createdAt).fromNow()} </Typography>
-                </div>
-                <div className={classes.overlay2}>
-                    <More />
-                </div>
                 <div className={classes.details}>
                     <Typography variant="body2" color="textSecondary"> {post.tags.map((tag) => `#${tag} `)} </Typography>
                 </div>

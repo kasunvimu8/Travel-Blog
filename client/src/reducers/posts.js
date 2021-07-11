@@ -30,7 +30,10 @@ const recuder = (state = {isLoading : true, posts: []}, action) =>{
             };
 
         case CREATE:
-            return [...state, action.payload];
+            return {
+                ...state,
+                 posts: [...state.posts, action.payload]
+                };
 
         case DELETE:
             return {

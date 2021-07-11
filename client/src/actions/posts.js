@@ -45,13 +45,12 @@ export const getPostById = (id) => async (dispatch) => {
 }
 
 
-export const createPost = (posts) => async (dispatch) => {
+export const createPost = (post, history) => async (dispatch) => {
     try {
-        dispatch({ type : START_LOADING})
-        const {data} = await api.createPost(posts);
-        
+        const {data} = await api.createPost(post);
+
         dispatch({ type: CREATE, payload : data});
-        dispatch({ type : END_LOADING});
+        history.push(`/posts/${data._id}`)
     } catch (error) {
         console.log('Error message : '+ error);
         

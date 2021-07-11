@@ -5,12 +5,11 @@ import moment from 'moment';
 import {useParams, useHistory} from 'react-router-dom';
 
 import useStyles from './styles';
-import {getPostById}  from '../../actions/posts';
+import {getPostById, getPostsBySearch}  from '../../actions/posts';
 
 function PostDetails() {
     const {post, posts, isLoading} = useSelector((state) => state.posts);
 
-    console.log(post)
     const dispatch = useDispatch();
     const history = useHistory();
     const classes = useStyles();
@@ -19,6 +18,39 @@ function PostDetails() {
     useEffect(() => {
         dispatch(getPostById(id));
     },[dispatch, id])
+
+    useEffect(() => {
+        if (post){
+            dispatch(getPostsBySearch({search: 'none', tags: post?.tags?.join(',')}));
+        }
+    },[dispatch, post])
+
+    const recommendedPosts = posts.filter((recommendedPost) => recommendedPost?._id !== post?._id);
+    
+    const openPost = (_id) => {
+        history.push(`/posts/${_id}`);
+    }
+    
+    const RecommendedPosts = () => {
+        if (recommendedPosts.length === 0) return null;
+        else  return (
+            <div className={classes.section} >
+                <Typography variant="h5" gutterBottom>You might also like :</Typography>
+                <Divider />
+                <div className={classes.recommendedPosts} >
+                    {recommendedPosts.map(({title,message,name,likes,selectedFile,_id}) => (
+                        <div style={{margin: '20px', cursor: 'pointer'}} onClick={() => openPost(_id)} key={_id}>
+                            <Typography gutterBottom variant="h6">{title}</Typography>
+                            <Typography gutterBottom variant="subtitle2">{name}</Typography>
+                            <Typography gutterBottom variant="subtitle2">{message}</Typography>
+                            <Typography gutterBottom variant="subtitle1">Likes: {likes.length}</Typography>
+                            <img src={selectedFile} min-width="100px" height="120px" alt="recommended_img"/>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        )
+    }
 
     if (!post) return null;
 
@@ -47,6 +79,7 @@ function PostDetails() {
                     <img className={classes.media} src={post.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post.title} />
                 </div>
             </div>
+            <RecommendedPosts />
         </Paper>
     )
 }
