@@ -46,3 +46,7 @@ export const fetchPostsBySearch = (searchQuery) => {
 export const fetchPostById = (id) => {
     return API.get(`/posts/${id}`);
 }
+
+export const commentPost = (comment, postId) => {
+    return  API.post(`/posts/${postId}/commentPost`, {comment});
+}

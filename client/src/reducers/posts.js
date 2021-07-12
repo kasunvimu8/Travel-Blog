@@ -1,4 +1,4 @@
-import {CREATE, DELETE, UPDATE, FETCH_ALL, LIKE, FETCH_BY_SEARCH, START_LOADING, END_LOADING, FETCH_BY_ID} from '../constants/actionTypes';
+import {CREATE, DELETE, UPDATE, FETCH_ALL, LIKE, FETCH_BY_SEARCH, START_LOADING, END_LOADING, FETCH_BY_ID, COMMENT} from '../constants/actionTypes';
  
 const recuder = (state = {isLoading : true, posts: []}, action) =>{
     switch (action.type) {
@@ -52,6 +52,13 @@ const recuder = (state = {isLoading : true, posts: []}, action) =>{
 
         case FETCH_BY_ID:
             return {...state, post: action.payload};
+
+        case COMMENT:
+            return {
+                ...state,
+                posts: state.posts.map((post) => (post._id === action.payload._id) ? action.payload : post),
+                // post: action.payload, if this is done then the whole post will render
+                };
 
         default:
             return state

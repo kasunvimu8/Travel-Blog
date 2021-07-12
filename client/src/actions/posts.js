@@ -1,5 +1,5 @@
 import * as api from '../api';
-import {CREATE, DELETE, UPDATE, FETCH_ALL, LIKE, FETCH_BY_SEARCH, START_LOADING, END_LOADING,FETCH_BY_ID} from '../constants/actionTypes';
+import {CREATE, DELETE, UPDATE, FETCH_ALL, LIKE, FETCH_BY_SEARCH, START_LOADING, END_LOADING,FETCH_BY_ID, COMMENT} from '../constants/actionTypes';
 // Just like with a normal action, we first need to handle a user event in the application, 
 // such as a click on a button. Then, we call dispatch(), and pass in something, whether it
 // be a plain action object, a function, or some other value that a middleware can look for.
@@ -79,6 +79,16 @@ export const likePost = (postId) => async (dispatch) => {
     try {
         const {data} = await api.likePost(postId);
         dispatch({type : LIKE, payload : data});
+    } catch (error) {
+        console.log('Error message : '+ error);
+    }
+}
+
+export const commentPost = (comment, postId) => async (dispatch) => {
+    try {
+        const {data} = await api.commentPost(comment, postId);
+        dispatch({type : COMMENT, payload : data});
+        return data.comments;
     } catch (error) {
         console.log('Error message : '+ error);
     }

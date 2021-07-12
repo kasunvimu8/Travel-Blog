@@ -1,15 +1,28 @@
 import React, {useState, useRef} from 'react';
 import {Typography, TextField,Button} from '@material-ui/core';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
+import {commentPost} from '../../actions/posts';
 import useStyles from './styles';
 
 const CommentSection = ({post}) => {
       const classes = useStyles();
-      const [comments, setComments] = useState([]);
-      const [comment, setComment] = useState('');
+      const [comments, setComments] = useState([post?.comments]);
+      // const {post, posts, isLoading} = useSelector((state) => state.posts);
+      const commentRef = useRef();
 
-      const handleClick = () => {
+      const [comment, setComment] = useState('');
+      const dispatch = useDispatch();
+
+      const user = useSelector((state) => state.auth.authData);
+
+      const handleClick = async () =>  {
+            const commentFinal = `${user.result.name}: ${comment}`;
+            const newComment = await dispatch(commentPost(commentFinal, post._id));
+            setComments(newComment);
+            setComment('');
+            
+            commentRef.current.scrollIntoView({behavior: 'smooth'});
       }
 
       return (
@@ -17,18 +30,21 @@ const CommentSection = ({post}) => {
                 <div className={classes.commentsOuterContainer}>
                     <div className={classes.commentsInnerContainer}>
                         <Typography variant="h6" gutterBottom>Comments</Typography>
-                        {comments.map((comment, i) => (
-                              <Typography variant="subtitle1" gutterBottom key={i}>Comment {i}</Typography>
+                        {comments.map((c, i) => (
+                              <Typography variant="subtitle1" gutterBottom key={i}>{c}</Typography>
 
                         ))}
+                        <div ref={commentRef} />
                      </div>
-                     <div style={{width: '70%'}} >
-                        <Typography variant="h6" gutterBottom>Write a comment</Typography>
-                        <TextField fullWidth rows={4} variant="outlined" label="Comment" multiline value={comment} onchange={(e) => setComment(e.target.value)}/>
-                        <Button style={{marginTop: '10px'}} fullWidth disabled={!comment} variant="contained" onClick={handleClick}>
-                              Comment
-                        </Button>
-                     </div>
+                     {user?.result?.name && (
+                        <div style={{width: '70%'}} >
+                              <Typography variant="h6" gutterBottom>Write a comment</Typography>
+                              <TextField fullWidth rows={4} variant="outlined" label="Comment" multiline value={comment} onChange={(e) => setComment(e.target.value)}/>
+                              <Button style={{marginTop: '10px'}} fullWidth disabled={!comment} variant="contained" onClick={handleClick} color="primary">
+                                    Comment
+                              </Button>
+                        </div>
+                        )}
                 </div>
             </div>
       )
