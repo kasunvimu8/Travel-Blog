@@ -38,6 +38,23 @@ export default makeStyles((theme) => ({
       flexDirection: 'column',
     },
   },
+
+  postWrap:{
+    maxWidth: '20%',
+    [theme.breakpoints.down('xl')]: {
+      maxWidth: '15%',
+    },
+    [theme.breakpoints.down('lg')]: {
+      maxWidth: '25%',
+    },
+    [theme.breakpoints.down('md')]: {
+      maxWidth: '40%',
+    },
+    [theme.breakpoints.down('sm')]: {
+      maxWidth: '100%',
+    }
+  },
+
   postContent: {
     padding: '10px 0 0 0',
     fontSize: '0.875rem',

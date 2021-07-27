@@ -44,7 +44,7 @@ function PostDetails() {
                 <Divider />
                 <div className={classes.recommendedPosts} >
                     {recommendedPosts.map(({title,message,name,likes,selectedFile,_id}) => (
-                        <div style={{margin: '25px', cursor: 'pointer', maxWidth: `${postWidth}%`}} onClick={() => openPost(_id)} key={_id}>
+                        <div className= {classes.postWrap} style={{margin: '25px', cursor: 'pointer'}} onClick={() => openPost(_id)} key={_id}>
                             <Typography gutterBottom variant="h6">{title}</Typography>
                             <Typography gutterBottom variant="subtitle2">{name}</Typography>
                             {/* <Typography gutterBottom variant="subtitle2" className={classes.postContent}>{message.split(' ').splice(0,25).join(' ')}...</Typography> */}
