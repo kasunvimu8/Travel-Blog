@@ -1,5 +1,8 @@
 import React,{useEffect} from 'react';
 import {Paper, Typography, CircularProgress, Divider, Grid} from '@material-ui/core';
+import {useTheme} from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
 import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
 import {useParams, useHistory} from 'react-router-dom';
@@ -16,6 +19,9 @@ function PostDetails() {
     const history = useHistory();
     const classes = useStyles();
     const {id} = useParams();
+
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.down("xs"));
 
     useEffect(() => {
         dispatch(getPostById(id));
@@ -34,9 +40,6 @@ function PostDetails() {
     }
     
     const RecommendedPosts = () => {
-        let recPosts =  recommendedPosts.length;
-        let postWidth = 80/recPosts < 16 ? 16 : 80/recPosts;
-
         if (recommendedPosts.length === 0) return null;
         else  return (
             <div className={classes.section} >
@@ -71,7 +74,7 @@ function PostDetails() {
             <Paper style={{padding: '20px', borderRadius: '15px'}} elevation={6}>
                 <div className={classes.card}>
                     <div className={classes.section}>
-                        <Typography variant="h3" component="h2">{post.title}</Typography>
+                        <Typography variant={matches ? "h5" : "h3"} component="h2">{post.title}</Typography>
                         <Typography gutterBottom variant="h6" color="textSecondary" component="h2">{post.tags.map((tag) => `#${tag} `)}</Typography>
                         <Typography gutterBottom variant="body1" component="p">{post.message}</Typography>
                         <Typography variant="h6">Created by: {post.name}</Typography>
